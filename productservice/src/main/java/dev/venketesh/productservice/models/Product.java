@@ -1,8 +1,6 @@
 package dev.venketesh.productservice.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +17,10 @@ public class Product extends BaseModel {
     private String  image;
 
     //P:C 1P:1C 1C:M-P
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @JoinColumn(name="category")
     private Category category;
-    private double price;
+
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}) //Add and remove price when product is added or removed
+    private Price price;
 }
