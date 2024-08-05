@@ -32,7 +32,7 @@ public class FakeStoreProductServiceClient {
         this.specificProductRequestUrl=baseUrl+productUrl;
     }
 
-    public FakeStoreProductDTO getProductById(Long id) throws NotFoundExpception {
+    public FakeStoreProductDTO getProductById(UUID id) throws NotFoundExpception {
         RestTemplate restTemplate = restTemplateBuilder.build();
         ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity(specificProductRequestUrlProduct, FakeStoreProductDTO.class,id);
         FakeStoreProductDTO fakeStoreProductDTO = responseEntity.getBody();

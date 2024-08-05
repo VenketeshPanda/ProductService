@@ -4,13 +4,13 @@ import dev.venketesh.productservice.thirdpartyclient.productservice.fakestore.Fa
 import dev.venketesh.productservice.dto.GenericProductDTO;
 import dev.venketesh.productservice.exceptions.NotFoundExpception;
 import dev.venketesh.productservice.thirdpartyclient.productservice.fakestore.FakeStoreProductServiceClient;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
-@Primary
+
 @Service("fakeStoreProductServiceImpl")
 public class FakeStoreProductService implements ProductService {
 
@@ -21,7 +21,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO getProductById(Long id) throws NotFoundExpception {
+    public GenericProductDTO getProductById(UUID id) throws NotFoundExpception {
        return convertFakeStoreDTOToGenericProductDTO(fakeStoreProductServiceClient.getProductById(id));
     }
 
@@ -41,14 +41,13 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO deleteProduct(Long id) {
-        return convertFakeStoreDTOToGenericProductDTO(fakeStoreProductServiceClient.deleteProduct(id));
+    public GenericProductDTO deleteProduct(UUID id) {
+        return null;
     }
 
-
     @Override
-    public GenericProductDTO updateProduct(GenericProductDTO product, Long id){
-        return convertFakeStoreDTOToGenericProductDTO(fakeStoreProductServiceClient.updateProduct(product,id));
+    public GenericProductDTO updateProduct(GenericProductDTO productDTO, UUID id) {
+        return null;
     }
 
     private GenericProductDTO convertFakeStoreDTOToGenericProductDTO(FakeStoreProductDTO fakeStoreProductDTO){
@@ -56,7 +55,6 @@ public class FakeStoreProductService implements ProductService {
         product.setImage(fakeStoreProductDTO.getImage());
         product.setTitle(fakeStoreProductDTO.getTitle());
         product.setDescription(fakeStoreProductDTO.getDescription());
-        product.setCategory(fakeStoreProductDTO.getCategory());
         product.setPrice(fakeStoreProductDTO.getPrice());
         return product;
     }
