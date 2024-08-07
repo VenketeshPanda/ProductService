@@ -8,7 +8,7 @@ import java.util.UUID;
 @Getter
 @Setter
 public class GenericProductDTO {
-    private UUID id;
+    private String id;
     private String title;
     private String category;
     private double price;

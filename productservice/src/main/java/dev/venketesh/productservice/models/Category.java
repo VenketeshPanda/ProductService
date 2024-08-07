@@ -13,7 +13,7 @@ public class Category extends BaseModel{
     @Column
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category")
+    @OneToMany(mappedBy = "category")
     private List<Product> products;
     //Same relation mapped by category attribute in the other class
     //Category category in Products is mapped to List<Product> products;

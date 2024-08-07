@@ -55,7 +55,7 @@ public class SelfProductService implements ProductService {
         }
         Product product = productOptional.get();
         GenericProductDTO productDTO = new GenericProductDTO();
-        productDTO.setId(id);
+        productDTO.setId(id.toString());
         productDTO.setTitle(product.getTitle());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice().getValue());
@@ -78,8 +78,8 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO deleteProduct(UUID id) {
-        UUID uuid = UUID.fromString(id.toString());
+    public GenericProductDTO deleteProduct(String id) {
+        UUID uuid = UUID.fromString(id);
         Optional<Product> productOptional = productRepository.findById(uuid);
         Product product = productOptional.get();
         productRepository.delete(product);

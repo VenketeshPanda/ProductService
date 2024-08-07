@@ -41,7 +41,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO deleteProduct(UUID id) {
+    public GenericProductDTO deleteProduct(String id) {
         return null;
     }
 

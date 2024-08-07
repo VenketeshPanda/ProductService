@@ -12,7 +12,7 @@ public interface ProductService {
     GenericProductDTO getProductById(UUID id) throws NotFoundExpception;
     List<GenericProductDTO> getAllProducts();
 
-    GenericProductDTO deleteProduct(UUID id);
+    GenericProductDTO deleteProduct(String id);
 
     GenericProductDTO updateProduct(GenericProductDTO productDTO, UUID id);
 }
