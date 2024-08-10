@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootApplication
-public class ProductserviceApplication implements CommandLineRunner {
+public class ProductserviceApplication {
 
 	private final CategoryRepository categoryRepository;
 
@@ -26,20 +26,20 @@ public class ProductserviceApplication implements CommandLineRunner {
 		SpringApplication.run(ProductserviceApplication.class, args);
 	}
 
-	@Transactional
-	@Override
-	public void run(String... args) throws Exception {
-		doSomething();
-	}
-
-	@Transactional
-	public void doSomething(){
-		Optional<Category> category = Optional.of(new Category());
-		category = categoryRepository.findById(UUID.fromString("0c99c03f-ef46-48ce-93f3-d62d929f5f93"));
-		System.out.println(category.get().getName());
-		Category category1 = category.get();
-		List<Product> productList = category1.getProducts();
-
-		System.out.println(productList.size());
-	}
+//	@Transactional
+//	@Override
+//	public void run(String... args) throws Exception {
+//		doSomething();
+//	}
+//
+//	@Transactional
+//	public void doSomething(){
+//		Optional<Category> category = Optional.of(new Category());
+//		category = categoryRepository.findById(UUID.fromString("0c99c03f-ef46-48ce-93f3-d62d929f5f93"));
+//		System.out.println(category.get().getName());
+//		Category category1 = category.get();
+//		List<Product> productList = category1.getProducts();
+//
+//		System.out.println(productList.size());
+//	}
 }
