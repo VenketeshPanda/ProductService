@@ -4,6 +4,7 @@ import dev.venketesh.productservice.thirdpartyclient.productservice.fakestore.Fa
 import dev.venketesh.productservice.dto.GenericProductDTO;
 import dev.venketesh.productservice.exceptions.NotFoundExpception;
 import dev.venketesh.productservice.thirdpartyclient.productservice.fakestore.FakeStoreProductServiceClient;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
