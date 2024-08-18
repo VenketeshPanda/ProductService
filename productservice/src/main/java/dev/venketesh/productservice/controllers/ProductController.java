@@ -1,6 +1,9 @@
 package dev.venketesh.productservice.controllers;
 
+import dev.venketesh.productservice.commons.AuthCommons;
 import dev.venketesh.productservice.dto.GenericProductDTO;
+import dev.venketesh.productservice.dto.Role;
+import dev.venketesh.productservice.dto.UserDTO;
 import dev.venketesh.productservice.exceptions.NotFoundExpception;
 import dev.venketesh.productservice.services.ProductService;
 
@@ -18,9 +21,11 @@ import java.util.UUID;
 public class ProductController {
 
     private ProductService productService;
+    private AuthCommons authCommons;
 
-    public ProductController(ProductService productService){
+    public ProductController(ProductService productService,AuthCommons authCommons){
         this.productService=productService;
+        this.authCommons = authCommons;
     }
 
     @GetMapping
@@ -29,8 +34,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public GenericProductDTO getProductById(@PathVariable("id") UUID id) throws NotFoundExpception {
-         return productService.getProductById(id);
+    public ResponseEntity<GenericProductDTO> getProductById(@PathVariable("id") UUID id, @RequestHeader("authToken") String token) throws NotFoundExpception {
+        UserDTO userDTO = authCommons.validateToken(token);
+        if(userDTO==null){
+            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
+        }
+        GenericProductDTO productDTO = productService.getProductById(id);
+        ResponseEntity<GenericProductDTO> responseEntity = new ResponseEntity<>(productDTO, HttpStatus.OK);
+        return responseEntity;
     }
 
     @DeleteMapping("/{id}")

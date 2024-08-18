@@ -1,9 +1,7 @@
 package dev.venketesh.productservice.dto;
-import dev.venketesh.productservice.models.Category;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.UUID;
 
 @Getter
 @Setter
