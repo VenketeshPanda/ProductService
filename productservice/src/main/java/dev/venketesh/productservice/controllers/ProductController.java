@@ -34,11 +34,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GenericProductDTO> getProductById(@PathVariable("id") UUID id, @RequestHeader("authToken") String token) throws NotFoundExpception {
-        UserDTO userDTO = authCommons.validateToken(token);
-        if(userDTO==null){
-            return new ResponseEntity<>(null, HttpStatus.UNAUTHORIZED);
-        }
+    public ResponseEntity<GenericProductDTO> getProductById(@PathVariable("id") UUID id) throws NotFoundExpception {
         GenericProductDTO productDTO = productService.getProductById(id);
         ResponseEntity<GenericProductDTO> responseEntity = new ResponseEntity<>(productDTO, HttpStatus.OK);
         return responseEntity;
