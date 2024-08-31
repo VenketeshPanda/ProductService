@@ -5,10 +5,12 @@ import dev.venketesh.productservice.dto.GenericProductDTO;
 import dev.venketesh.productservice.dto.Role;
 import dev.venketesh.productservice.dto.UserDTO;
 import dev.venketesh.productservice.exceptions.NotFoundExpception;
+import dev.venketesh.productservice.models.Product;
 import dev.venketesh.productservice.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +31,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<GenericProductDTO> getAllProducts(){
-        return productService.getAllProducts();
+    public Page<GenericProductDTO> getAllProducts(@RequestParam("pageNumber") int pageNumber, @RequestParam("pageSize") int pageSize){
+        return productService.getAllProducts(pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")

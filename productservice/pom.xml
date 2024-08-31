@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>dev.venketesh</groupId>
 	<artifactId>productservice</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1-LATEST</version>
 	<name>productservice</name>
 	<description>Product Service For Ecommerce</description>
 	<url/>

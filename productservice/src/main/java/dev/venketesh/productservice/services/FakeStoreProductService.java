@@ -5,6 +5,7 @@ import dev.venketesh.productservice.dto.GenericProductDTO;
 import dev.venketesh.productservice.exceptions.NotFoundExpception;
 import dev.venketesh.productservice.thirdpartyclient.productservice.fakestore.FakeStoreProductServiceClient;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,13 +33,13 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public List<GenericProductDTO> getAllProducts(){
+    public Page<GenericProductDTO> getAllProducts(int pageNumber, int pageSize) {
         List<GenericProductDTO> products = new ArrayList<>();
         List<FakeStoreProductDTO> fakeStoreProductDTOS = fakeStoreProductServiceClient.getAllProducts();
         for(FakeStoreProductDTO fakeStoreProductDTO: fakeStoreProductDTOS){
             products.add(convertFakeStoreDTOToGenericProductDTO(fakeStoreProductDTO));
         }
-        return products;
+        return null;
     }
 
     @Override

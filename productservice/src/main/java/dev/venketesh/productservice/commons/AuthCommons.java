@@ -16,7 +16,7 @@ public class AuthCommons {
     public UserDTO validateToken(String token) {
         //Call the user service now to validate token
         ResponseEntity<UserDTO> responseEntity =
-                restTemplate.getForEntity("http://localhost:8080/users/validate/"+token, UserDTO.class);
+                restTemplate.getForEntity("http://UserService-prod-env.ap-south-1.elasticbeanstalk.com/users/validate/"+token, UserDTO.class);
 
         if(responseEntity.getBody()==null){
             //token is invalid

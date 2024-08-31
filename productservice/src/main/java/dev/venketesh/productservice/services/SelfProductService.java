@@ -7,6 +7,10 @@ import dev.venketesh.productservice.models.Price;
 import dev.venketesh.productservice.models.Product;
 import dev.venketesh.productservice.repositories.ProductRepository;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -55,7 +59,6 @@ public class SelfProductService implements ProductService {
         }
         Product product = productOptional.get();
         GenericProductDTO productDTO = new GenericProductDTO();
-        productDTO.setId(id.toString());
         productDTO.setTitle(product.getTitle());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice().getValue());
@@ -64,17 +67,17 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public List<GenericProductDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        List<GenericProductDTO> genericProductDTOS = new ArrayList<>();
-        for (Product product : products) {
+    public Page<GenericProductDTO> getAllProducts(int pageNumber, int pageSize) {
+        return productRepository.findAll(PageRequest.of(pageNumber
+                ,pageSize,
+                Sort.by("title").ascending())).map(product -> {
             GenericProductDTO productDTO = new GenericProductDTO();
             productDTO.setTitle(product.getTitle());
             productDTO.setDescription(product.getDescription());
-            productDTO.setImage(product.getImage());
-            genericProductDTOS.add(productDTO);
-        }
-        return genericProductDTOS;
+            productDTO.setPrice(product.getPrice().getValue());
+            productDTO.setCategory(product.getCategory().getName());
+            return productDTO;
+        });
     }
 
     @Override
@@ -84,7 +87,6 @@ public class SelfProductService implements ProductService {
         Product product = productOptional.get();
         productRepository.delete(product);
         GenericProductDTO productDTO = new GenericProductDTO();
-        productDTO.setId(id);
         productDTO.setTitle(product.getTitle());
         productDTO.setDescription(product.getDescription());
         productDTO.setPrice(product.getPrice().getValue());
