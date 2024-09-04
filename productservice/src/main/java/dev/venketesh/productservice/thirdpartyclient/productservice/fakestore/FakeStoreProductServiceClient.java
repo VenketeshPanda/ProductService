@@ -4,6 +4,7 @@ import dev.venketesh.productservice.dto.GenericProductDTO;
 import dev.venketesh.productservice.exceptions.NotFoundExpception;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -24,18 +25,33 @@ public class FakeStoreProductServiceClient {
     private final RestTemplateBuilder restTemplateBuilder;
     private final String specificProductRequestUrl;
     private final String specificProductRequestUrlProduct;
+    private RedisTemplate<String, Object> redisTemplate;
 
     public FakeStoreProductServiceClient(RestTemplateBuilder restTemplateBuilder,@Value("${fakestore.api.url}") String baseUrl
-                                         ,@Value("${fakestore.api.paths.products}")String productUrl) {
+                                         ,@Value("${fakestore.api.paths.products}")String productUrl,RedisTemplate redisTemplate) {
         this.restTemplateBuilder=restTemplateBuilder;
         this.specificProductRequestUrlProduct=baseUrl+productUrl+"/{id}";
         this.specificProductRequestUrl=baseUrl+productUrl;
+        this.redisTemplate = redisTemplate;
     }
 
-    public FakeStoreProductDTO getProductById(UUID id) throws NotFoundExpception {
+    public FakeStoreProductDTO getProductById(Long id) throws NotFoundExpception {
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity(specificProductRequestUrlProduct, FakeStoreProductDTO.class,id);
-        FakeStoreProductDTO fakeStoreProductDTO = responseEntity.getBody();
+        FakeStoreProductDTO fakeStoreProductDTO;
+        fakeStoreProductDTO = (FakeStoreProductDTO) redisTemplate.opsForHash().get("PRODUCTS","PRODUCTS_"+id);
+        if(fakeStoreProductDTO!=null){
+            return fakeStoreProductDTO;
+        }
+        else{
+            ResponseEntity<FakeStoreProductDTO> responseEntity = restTemplate.getForEntity(specificProductRequestUrlProduct, FakeStoreProductDTO.class,id);
+            fakeStoreProductDTO = responseEntity.getBody();
+        /*
+            Map Name : PRODUCTS
+            ID : Key
+            Value: Product obj
+         */
+            redisTemplate.opsForHash().put("PRODUCTS","PRODUCTS_"+id,fakeStoreProductDTO);
+        }
 
         return fakeStoreProductDTO;
     }

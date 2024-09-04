@@ -6,6 +6,7 @@ import dev.venketesh.productservice.exceptions.NotFoundExpception;
 import dev.venketesh.productservice.thirdpartyclient.productservice.fakestore.FakeStoreProductServiceClient;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,16 +15,19 @@ import java.util.UUID;
 
 
 @Service("fakeStoreProductServiceImpl")
+@Primary
 public class FakeStoreProductService implements ProductService {
 
     private final FakeStoreProductServiceClient fakeStoreProductServiceClient;
+    private RedisTemplate<String, Object> redisTemplate;
 
-    public FakeStoreProductService(FakeStoreProductServiceClient fakeStoreProductServiceClient){
+    public FakeStoreProductService(FakeStoreProductServiceClient fakeStoreProductServiceClient, RedisTemplate redisTemplate){
         this.fakeStoreProductServiceClient=fakeStoreProductServiceClient;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
-    public GenericProductDTO getProductById(UUID id) throws NotFoundExpception {
+    public GenericProductDTO getProductById(Long id) throws NotFoundExpception {
        return convertFakeStoreDTOToGenericProductDTO(fakeStoreProductServiceClient.getProductById(id));
     }
 

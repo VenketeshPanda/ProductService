@@ -21,16 +21,16 @@ public class ControllerService implements CategoryService {
     }
 
     @Override
-    public Category getCategory(String uuid) {
-        Optional<Category> category = categoryRepository.findById(UUID.fromString(uuid));
+    public Category getCategory(Long id) {
+        Optional<Category> category = categoryRepository.findById(id);
         if(category.isEmpty()){
             return null;
         }
         return category.get();
     }
 
-    public List<String> getProductTitles(String uuid){
-        Optional<Category> category = categoryRepository.findById(UUID.fromString(uuid));
+    public List<String> getProductTitles(Long id){
+        Optional<Category> category = categoryRepository.findById(id);
         if(category.isEmpty()){
             return null;
         }

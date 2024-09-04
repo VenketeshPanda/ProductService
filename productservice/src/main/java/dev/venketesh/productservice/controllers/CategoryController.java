@@ -23,8 +23,8 @@ public class CategoryController {
     }
 
     @GetMapping("/{uuid}")
-    public List<ProductDTO> getCategory(@PathVariable("uuid") String uuid){
-        List<Product> products= categoryService.getCategory(uuid).getProducts();
+    public List<ProductDTO> getCategory(@PathVariable("id") Long id){
+        List<Product> products=categoryService.getCategory(id).getProducts();
         List<ProductDTO> productDTOS = new ArrayList<>();
         for(Product product: products){
             ProductDTO productDTO = new ProductDTO();
@@ -37,7 +37,7 @@ public class CategoryController {
     }
 
     @GetMapping("/titles/{uuid}")
-    public List<String> getProductTitles(@PathVariable("uuid") String uuid){
-        return categoryService.getProductTitles(uuid);
+    public List<String> getProductTitles(@PathVariable("uuid") Long id){
+        return categoryService.getProductTitles(id);
     }
 }

@@ -36,7 +36,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<GenericProductDTO> getProductById(@PathVariable("id") UUID id) throws NotFoundExpception {
+    public ResponseEntity<GenericProductDTO> getProductById(@PathVariable("id") Long id) throws NotFoundExpception {
         GenericProductDTO productDTO = productService.getProductById(id);
         ResponseEntity<GenericProductDTO> responseEntity = new ResponseEntity<>(productDTO, HttpStatus.OK);
         return responseEntity;

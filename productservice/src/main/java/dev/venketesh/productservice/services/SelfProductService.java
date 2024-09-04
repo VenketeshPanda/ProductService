@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-@Primary
+
 @Service("selfProductServiceImpl")
 public class SelfProductService implements ProductService {
 
@@ -52,8 +52,8 @@ public class SelfProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDTO getProductById(UUID id) throws NotFoundExpception {
-        Optional<Product> productOptional = Optional.ofNullable(productRepository.findByUuid(id));
+    public GenericProductDTO getProductById(Long id) throws NotFoundExpception {
+        Optional<Product> productOptional = Optional.ofNullable(productRepository.findById(id));
         if (productOptional.isEmpty()) {
             throw new NotFoundExpception("Product not found");
         }
