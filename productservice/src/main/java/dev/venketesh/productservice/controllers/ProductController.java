@@ -10,10 +10,13 @@ import dev.venketesh.productservice.services.ProductService;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.UUID;
@@ -24,10 +27,12 @@ public class ProductController {
 
     private ProductService productService;
     private AuthCommons authCommons;
+    private RestTemplate restTemplate;
 
-    public ProductController(ProductService productService,AuthCommons authCommons){
+    public ProductController(ProductService productService,AuthCommons authCommons, RestTemplate restTemplate){
         this.productService=productService;
         this.authCommons = authCommons;
+        this.restTemplate=restTemplate;
     }
 
     @GetMapping
@@ -57,5 +62,12 @@ public class ProductController {
     @PutMapping("/{id}")
     public GenericProductDTO updateProductById(@RequestBody GenericProductDTO productDTO, @PathVariable UUID id){
         return productService.updateProduct(productDTO, id);
+    }
+
+    @GetMapping("/call/userservice")
+    public String callUserService(){
+        String ans = String.valueOf(restTemplate.getForEntity("http://userservice/users/hello/from/userservice",String.class));
+        System.out.println(ans);
+        return null;
     }
 }
