@@ -19,6 +19,7 @@ public class SampleController {
 
     @GetMapping("/saybye")
     public String sayBye() {
+        System.out.println("Served via this server");
         return "Bye Everyone";
     }
 }

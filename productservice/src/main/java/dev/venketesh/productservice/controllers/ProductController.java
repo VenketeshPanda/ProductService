@@ -68,6 +68,13 @@ public class ProductController {
     public String callUserService(){
         String ans = String.valueOf(restTemplate.getForEntity("http://userservice/users/hello/from/userservice",String.class));
         System.out.println(ans);
-        return null;
+        return "User service called";
+    }
+
+    @GetMapping("getproduct/{id}")
+    public ResponseEntity<GenericProductDTO> getProductById2(@PathVariable("id") Long id) throws NotFoundExpception {
+        GenericProductDTO productDTO = productService.getProductById(id);
+        ResponseEntity<GenericProductDTO> responseEntity = new ResponseEntity<>(productDTO, HttpStatus.OK);
+        return responseEntity;
     }
 }
